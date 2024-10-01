@@ -1,5 +1,5 @@
 {
-  "name": "http-api-assignment-ii",
+  "name": "project1",
   "version": "1.0.0",
   "description": "HTML 2",
   "main": "index.js",
@@ -14,5 +14,13 @@
     "eslint": "^8.57.1",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.30.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ziatical/project-1.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Ziatical/project-1/issues"
+  },
+  "homepage": "https://github.com/Ziatical/project-1#readme"
 }
