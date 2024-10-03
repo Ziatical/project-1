@@ -6,8 +6,8 @@
   
   <script>
     // Handle Response
-    const handleResponse = async (response, parseResponse) => {
-      const content = document.querySelector('#content');
+    const handleResponse = async (response, parseResponse, contentId) => {
+      const content = document.querySelector(contentId);
 
       switch(response.status) {
         case 200: 
@@ -49,9 +49,17 @@
     const sendPost = async (nameForm) => {
       const url = nameForm.getAttribute('action');
       const method = nameForm.getAttribute('method');
-      const nameField = nameForm.querySelector('#nameField');
-      const ageField = nameForm.querySelector('#ageField');
-      const formData = `name=${nameField.value}&age=${ageField.value}`;
+      if (nameForm == document.querySelector('#removeCountryForm'))
+      {
+        const nameField = nameForm.querySelector('#changeCurrencyCountryField');
+        const ageField = nameForm.querySelector('#changeCurrencyField');
+        const formData = `country=${nameField.value}&currency=${ageField.value}`;
+        const contentId = '#changeCurrencyContent';
+      } else {
+        const nameField = nameForm.querySelector('#removeCountryField');
+        const formData = `country=${nameField.value}`;
+        const contentId = '#removeCountryContent';
+      }
 
       let response = await fetch(url, {
         method: method,
@@ -61,69 +69,176 @@
         },
         body: formData,
       });
-      handleResponse(response, method === 'post');
+      handleResponse(response, method === 'post', contentId);
     };
 
     // Request Update
     const requestUpdate = async (userForm) => {
       const url = userForm.querySelector('#urlField').value;
       const method = userForm.querySelector('#methodSelect').value;
+      if (nameForm == document.querySelector('#findCountryForm'))
+      {
+        const nameField = nameForm.querySelector('#currencyField');
+        const formData = `currency=${nameField.value}`;
+        const contentId = '#currencyContent';
+      } else if (nameForm == document.querySelector('#findCapitalForm')){
+        const nameField = nameForm.querySelector('#countryField');
+        const formData = `country=${nameField.value}`;
+        const contentId = '#capitalContent';
+      } else if (nameForm == document.querySelector('#findCountriesForm')){
+        const nameField = nameForm.querySelector('#regionField');
+        const ageField = nameForm.querySelector('#subregionField');
+        const formData = `region=${nameField.value}&subregion=${ageField.value}`;
+        const contentId = '#countryContent';
+      } else {
+        const nameField = nameForm.querySelector('#symbolField');
+        const formData = `currency=${nameField.value}`;
+        const contentId = '#symbolContent';
+      }
+
       let response = await fetch(url, {
         method,
         headers: {
             'Accept': 'application/json'
         },
+        body: formData,
       });
-      handleResponse(response, method === 'get');
+      handleResponse(response, method === 'get', contentId);
     };
+    
 
     // On load function
     const init = () => {
-      const userForm = document.querySelector('#userForm');
-      const nameForm = document.querySelector('#nameForm');
+      // Constants for each of the forms
+      const findCountryForm = document.querySelector('#findCountryForm');
+      const findCapitalForm = document.querySelector('#findCapitalForm');
+      const findCountriesForm = document.querySelector('#findCountriesForm');
+      const findSymbolForm = document.querySelector('#findSymbolForm');
+      const removeCountryForm = document.querySelector('#removeCountryForm');
+      const changeCurrencyForm = document.querySelector('#changeCurrencyForm');
 
-      const getUsers = (e) => {
+      // Connecting the forms to their methods
+      const findCountry = (e) => {
         e.preventDefault();
-        requestUpdate(userForm);
+        requestUpdate(findCountryForm);
         return false;
-      }
-
-      const addUser = (e) => {
+      };
+      const findCapital = (e) => {
         e.preventDefault();
-        sendPost(nameForm);
+        requestUpdate(findCapitalForm);
         return false;
-      }
+      };
+      const findCountries = (e) => {
+        e.preventDefault();
+        requestUpdate(findCountriesForm);
+        return false;
+      };
+      const findSymbol = (e) => {
+        e.preventDefault();
+        requestUpdate(findSymbolForm);
+        return false;
+      };
+      const removeCountry = (e) => {
+        e.preventDefault();
+        sendPost(removeCountryForm);
+        return false;
+      };
+      const changeCurrency = (e) => {
+        e.preventDefault();
+        sendPost(changeCurrencyForm);
+        return false;
+      };
 
-      nameForm.addEventListener('submit', addUser);
-      userForm.addEventListener('submit', getUsers);
+      // Event Listeners
+      findCountryForm.addEventListener('submit', findCountry);
+      findCapitalForm.addEventListener('submit', findCapital);
+      findCountriesForm.addEventListener('submit', findCountries);
+      findSymbolForm.addEventListener('submit', findSymbol);
+      removeCountryForm.addEventListener('submit', removeCountry);
+      changeCurrencyForm.addEventListener('submit', changeCurrency);
     };
 
     window.onload = init;
   </script>
 </head>
 <body>
-  <section id="top">
-    <h3>POST Status Code Tests</h3>
-    <form id="nameForm" action="/addUser" method="post">
-      <label for="name">Name: </label>
-      <input id="nameField" type="text" name="name" />
-      <label for="age">Age: </label>
-      <input id="ageField" type="number" name="age" min="0" max="100" step="1"/>
-      <input type="submit" value="Add User" />
-    </form>
-    <form id="userForm" action="/getUsers" method="get">
-      <select id='urlField'>
-        <option value='/getUsers'>/getUsers</option>
-        <option value='/notReal'>/notReal</option>
-      </select>
-      <select id="methodSelect">
-        <option value="get">GET</option>
-        <option value="head">HEAD</option>
-      </select>
-      <input type="submit" value="Get User" />
-    </form>
+  <!-- GETTERS -->
+  <section id="getters">
+    <h1>GET</h1>
+    <!-- Get countries that have currency of .... -->
+    <section id="currency">
+      <h3>Get Country Where Currency...</h3>
+      <form id="currencyForm" action="/findCountry" method="get">
+        <label for="currency">Currency: </label>
+        <input id="currencyField" type="text" name="currency" />
+        <input type="submit" value="Get Countries" />
+      </form>
+      <section id="currencyContent">
+      </section>
+    </section>
+    <!-- Get capital that is the country of .... -->
+    <section id="capital"></section>
+      <h3>Get Capital Where Country...</h3>
+      <form id="capitalForm" action="/findCapital" method="get">
+        <label for="capital">Country: </label>
+        <input id="countryField" type="text" name="capital" />
+        <input type="submit" value="Get Capital" />
+      </form>
+      <section id="capitalContent">
+      </section>
+    </section>
+    <!-- Get countries that are of region and/or subregion .... -->
+    <section id="region"></section>
+      <h3>List All Countries in Region...</h3>
+      <form id="regionForm" action="/findCountries" method="get">
+        <label for="region">Region: </label>
+        <input id="regionField" type="text" name="region" />
+        <label for="subregion">Subregion: </label>
+        <input id="subregionField" type="text" name="subregion" />
+        <input type="submit" value="Get Countries" />
+      </form>
+      <section id="countryContent">
+      </section>
+    </section>
+    <!-- Get symbol of the currency  .... -->
+    <section id="symbol"></section>
+      <h3>Get Symbol Where Currency...</h3>
+      <form id="symbolForm" action="/findSymbol" method="get">
+        <label for="symbol">Currency: </label>
+        <input id="symbolField" type="text" name="symbol" />
+        <input type="submit" value="Get Symbol" />
+      </form>
+      <section id="symbolContent">
+      </section>
+    </section>
   </section>
-  <section id="content">
+  <!-- POSTERS -->
+  <section id="posters">
+    <h1>POST</h1>
+    <!-- Remove country .... -->
+    <section id="removeCountry"></section>
+      <h3>Remove Country...</h3>
+      <form id="removeCountryForm" action="/removeCountry" method="post">
+        <label for="removeCountry">Country: </label>
+        <input id="removeCountryField" type="text" name="removeCountry" />
+        <input type="submit" value="Remove Country" />
+      </form>
+      <section id="removeCountryContent">
+      </section>
+    </section>
+    <!-- Change currency of country .... to currency of .... -->
+    <section id="changeCurrency"></section>
+      <h3>Change Currency...</h3>
+      <form id="changeCurrencyForm" action="/changeCurrency" method="post">
+        <label for="changeCurrencyCountry">In Country: </label>
+        <input id="changeCurrencyCountryField" type="text" name="changeCurrencyCountry" />
+        <label for="changeCurrency">To Currency: </label>
+        <input id="changeCurrencyField" type="text" name="changeCurrency" />
+        <input type="submit" value="Change Currency" />
+      </form>
+      <section id="changeCurrencyContent"></section>
+      </section>
+    </section>
   </section>
 </body>
 </html>
