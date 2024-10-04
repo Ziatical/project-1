@@ -62,33 +62,33 @@ const notReal = (request, response) => {
 // GET METHODS ----------------------------------
 // Find Countries that has designated currency
 const findCountry = (request, response) => {
-  
+
 };
 
 // Find the capital of the designated country
 const findCapital = (request, response) => {
-  
+
 };
 
 // Find the countries that are in the designated region add a subregion to filter search
 const findCountries = (request, response) => {
-  
+
 };
 
 // Find the symbol associated with the designated currency
 const findSymbol = (request, response) => {
-  
+
 };
 
 // POST METHODS -----------------------------------
 // Remove the country
 const removeCountry = (request, response) => {
-  
+
 };
 
 // Change the currency of specified country to a new currency
 const changeCurrency = (request, response) => {
-  
+
 };
 
 // Exports

@@ -15,11 +15,11 @@ const parseBody = (request, response, handler) => {
     response.statusCode = 400;
     response.end();
   });
-  
+
   request.on('data', (chunk) => {
     body.push(chunk);
   });
-  
+
   request.on('end', () => {
     const bodyString = Buffer.concat(body).toString();
     request.body = query.parse(bodyString);
@@ -31,7 +31,7 @@ const parseBody = (request, response, handler) => {
 const handlePost = (request, response, parsedUrl) => {
   if (parsedUrl.pathname === '/removeCountry') {
     parseBody(request, response, jsonHandler.removeCountry);
-  } else if (parsedUrl.pathname === '/changeCurrency'){
+  } else if (parsedUrl.pathname === '/changeCurrency') {
     parseBody(request, response, jsonHandler.changeCurrency);
   }
 };
@@ -59,14 +59,13 @@ const handleGet = (request, response, parsedUrl) => {
 const onRequest = (request, response) => {
   const protocol = request.connection.encrypted ? 'https' : 'http';
   const parsedUrl = new URL(request.url, `${protocol}://${request.headers.host}`);
-  
+
   if (request.method === 'POST') {
     handlePost(request, response, parsedUrl);
   } else {
     handleGet(request, response, parsedUrl);
   }
 };
-  
 
 // Server call back
 http.createServer(onRequest).listen(port, () => {
