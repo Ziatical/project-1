@@ -74,30 +74,33 @@
 
     // Request Update
     const requestUpdate = async (userForm) => {
-      const url = userForm.querySelector('#urlField').value;
-      const method = userForm.querySelector('#methodSelect').value;
+      const url = userForm.getAttribute('action');
       if (nameForm == document.querySelector('#findCountryForm'))
       {
         const nameField = nameForm.querySelector('#currencyField');
         const formData = `currency=${nameField.value}`;
         const contentId = '#currencyContent';
+        const method = userForm.querySelector('#methodSelect1').value;
       } else if (nameForm == document.querySelector('#findCapitalForm')){
         const nameField = nameForm.querySelector('#countryField');
         const formData = `country=${nameField.value}`;
         const contentId = '#capitalContent';
+        const method = userForm.querySelector('#methodSelect2').value;
       } else if (nameForm == document.querySelector('#findCountriesForm')){
         const nameField = nameForm.querySelector('#regionField');
         const ageField = nameForm.querySelector('#subregionField');
         const formData = `region=${nameField.value}&subregion=${ageField.value}`;
         const contentId = '#countryContent';
+        const method = userForm.querySelector('#methodSelect3').value;
       } else {
         const nameField = nameForm.querySelector('#symbolField');
         const formData = `currency=${nameField.value}`;
         const contentId = '#symbolContent';
+        const method = userForm.querySelector('#methodSelect4').value;
       }
 
       let response = await fetch(url, {
-        method,
+        method: method,
         headers: {
             'Accept': 'application/json'
         },
@@ -172,6 +175,10 @@
         <label for="currency">Currency: </label>
         <input id="currencyField" type="text" name="currency" />
         <input type="submit" value="Get Countries" />
+        <select id="methodSelect1">
+          <option value="get">GET</option>
+          <option value="head">HEAD</option>
+        </select>
       </form>
       <section id="currencyContent">
       </section>
@@ -183,6 +190,10 @@
         <label for="capital">Country: </label>
         <input id="countryField" type="text" name="capital" />
         <input type="submit" value="Get Capital" />
+        <select id="methodSelect2">
+          <option value="get">GET</option>
+          <option value="head">HEAD</option>
+        </select>
       </form>
       <section id="capitalContent">
       </section>
@@ -196,6 +207,10 @@
         <label for="subregion">Subregion: </label>
         <input id="subregionField" type="text" name="subregion" />
         <input type="submit" value="Get Countries" />
+        <select id="methodSelect3">
+          <option value="get">GET</option>
+          <option value="head">HEAD</option>
+        </select>
       </form>
       <section id="countryContent">
       </section>
@@ -207,6 +222,10 @@
         <label for="symbol">Currency: </label>
         <input id="symbolField" type="text" name="symbol" />
         <input type="submit" value="Get Symbol" />
+        <select id="methodSelect4">
+          <option value="get">GET</option>
+          <option value="head">HEAD</option>
+        </select>
       </form>
       <section id="symbolContent">
       </section>

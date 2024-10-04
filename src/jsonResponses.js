@@ -1,4 +1,8 @@
-const users = {};
+// Requires
+const fs = require('fs');
+
+// JSON Read In
+const countryData = JSON.parse(fs.readFileSync(`${__dirname}/../data/countries.json`));
 
 // Respond function
 const respondJSON = (request, response, status, object) => {
@@ -62,7 +66,29 @@ const notReal = (request, response) => {
 // GET METHODS ----------------------------------
 // Find Countries that has designated currency
 const findCountry = (request, response) => {
+  let responseJSON = {
+    message: 'Currency is required.',
+  };
+  const { currency } = request.body;
 
+  if (!currency) {
+    responseJSON.id = 'missingParams';
+    return respondJSON(request, response, 400, responseJSON);
+  }
+  
+  let countries = '';
+  for(let country in countryData){
+    if(countryData[country].finance.currency = currency){
+      countries = countries + countryData[country].name + ', ';
+    }
+  }
+  if (countries = ''){
+    responseJSON.message = 'No data found.'
+    responseJSON.id = 'missingParams';
+    respondJSON(request, response, 404, responseJSON);
+  }
+  
+  respondJSON(request, response, 200, responseJSON);
 };
 
 // Find the capital of the designated country
