@@ -75,25 +75,25 @@
     // Request Update
     const requestUpdate = async (userForm) => {
       const url = userForm.getAttribute('action');
-      if (nameForm == document.querySelector('#findCountryForm'))
+      if (userForm == document.querySelector('#findCountryForm'))
       {
-        const nameField = nameForm.querySelector('#currencyField');
+        const nameField = userForm.querySelector('#currencyField');
         const formData = `currency=${nameField.value}`;
         const contentId = '#currencyContent';
         const method = userForm.querySelector('#methodSelect1').value;
-      } else if (nameForm == document.querySelector('#findCapitalForm')){
-        const nameField = nameForm.querySelector('#countryField');
+      } else if (userForm == document.querySelector('#findCapitalForm')){
+        const nameField = userForm.querySelector('#countryField');
         const formData = `country=${nameField.value}`;
         const contentId = '#capitalContent';
         const method = userForm.querySelector('#methodSelect2').value;
-      } else if (nameForm == document.querySelector('#findCountriesForm')){
-        const nameField = nameForm.querySelector('#regionField');
-        const ageField = nameForm.querySelector('#subregionField');
+      } else if (userForm == document.querySelector('#findCountriesForm')){
+        const nameField = userForm.querySelector('#regionField');
+        const ageField = userForm.querySelector('#subregionField');
         const formData = `region=${nameField.value}&subregion=${ageField.value}`;
         const contentId = '#countryContent';
         const method = userForm.querySelector('#methodSelect3').value;
       } else {
-        const nameField = nameForm.querySelector('#symbolField');
+        const nameField = userForm.querySelector('#symbolField');
         const formData = `currency=${nameField.value}`;
         const contentId = '#symbolContent';
         const method = userForm.querySelector('#methodSelect4').value;
@@ -113,10 +113,10 @@
     // On load function
     const init = () => {
       // Constants for each of the forms
-      const findCountryForm = document.querySelector('#findCountryForm');
-      const findCapitalForm = document.querySelector('#findCapitalForm');
-      const findCountriesForm = document.querySelector('#findCountriesForm');
-      const findSymbolForm = document.querySelector('#findSymbolForm');
+      const findCountryForm = document.querySelector('#currencyForm');
+      const findCapitalForm = document.querySelector('#capitalForm');
+      const findCountriesForm = document.querySelector('#regionForm');
+      const findSymbolForm = document.querySelector('#symbolForm');
       const removeCountryForm = document.querySelector('#removeCountryForm');
       const changeCurrencyForm = document.querySelector('#changeCurrencyForm');
 

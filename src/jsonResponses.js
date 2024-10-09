@@ -64,12 +64,14 @@ const notReal = (request, response) => {
 };
 
 // GET METHODS ----------------------------------
+// Reminder: Use Find and Filter methods for searching
 // Find Countries that has designated currency
 const findCountry = (request, response) => {
   let responseJSON = {
     message: 'Currency is required.',
   };
-  const { currency } = request.body;
+  const currency = request.body;
+  console.log(currency);
 
   if (!currency) {
     responseJSON.id = 'missingParams';
@@ -82,6 +84,8 @@ const findCountry = (request, response) => {
       countries = countries + countryData[country].name + ', ';
     }
   }
+  responseJSON.message = countries;
+  responseJSON.id = 'success';
   if (countries = ''){
     responseJSON.message = 'No data found.'
     responseJSON.id = 'missingParams';
