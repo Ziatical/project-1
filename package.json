@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/Ziatical/project-1/issues"
   },
-  "homepage": "https://github.com/Ziatical/project-1#readme"
+  "homepage": "https://github.com/Ziatical/project-1#readme",
+  "dependencies": {
+    "bootstrap": "^5.3.3"
+  }
 }

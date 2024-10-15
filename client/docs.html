@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>API Documentation</title>
+  <link rel="stylesheet" type="text/css" href="/style.css">
+</head>
+<body>
+    <!-- Link to Main Page -->
+   <a href="/">Homepage</a>
+  <!-- GETTERS -->
+  <section class="get">
+    <h1 class="head">GET</h1>
+    <!-- Get countries that have currency of .... -->
+    <section class="sep">
+      <h2>/api/findCountry <code>GET</code> <code>HEAD</code></h2>
+      <h3>Query Params</h3>
+      <p class="params"><code>currency</code> - A currency of choice to filter by.</p>
+      <h3>Returns</h3>
+      <p>A JSON array of countries with that currency. Format: <code>[string]</code></p>
+      <h3>Example</h3>
+      <section class="example">
+        <p>Request: <code>/api/findCountry</code></p>
+        <p>Result: <code>["country1", "country2", "country3"]</code></p>
+      </section>
+    </section>
+    <hr class="sub">
+    <!-- Get capital that is the country of .... -->
+    <section class="sep">
+        <h2>/api/findCapital <code>GET</code> <code>HEAD</code></h2>
+        <h3>Query Params</h3>
+        <p class="params"><code>country</code> - A country to find the capital for.</p>
+        <h3>Returns</h3>
+        <p>A JSON array of capitals within that country. Format: <code>[string]</code></p>
+        <h3>Example</h3>
+        <section class="example">
+          <p>Request: <code>/api/findCapital</code></p>
+          <p>Result: <code>["capital1", "capital2"]</code></p>
+        </section>
+    </section>
+    <hr class="sub">
+    <!-- Get countries that are of region and/or subregion .... -->
+    <section class="sep">
+        <h2>/api/findCountries <code>GET</code> <code>HEAD</code></h2>
+        <h3>Query Params</h3>
+        <p class="params"><code>region</code> - A region to find countries from.</p>
+        <p class="params"><code>subregion</code> (optional) - A subregion to find countries from and filter (Ex. Southern, Northern, etc.).</p>
+        <h3>Returns</h3>
+        <p>A JSON array of countries from within that region. Format: <code>[string]</code></p>
+        <h3>Example</h3>
+        <section class="example">
+          <p>Request: <code>/api/findCountries</code></p>
+          <p>Result: <code>["country1", "country2", "country3"]</code></p>
+        </section>
+    </section>
+    <hr class="sub">
+    <!-- Get symbol of the currency  .... -->
+    <section class="sep">
+        <h2>/api/findSymbol <code>GET</code> <code>HEAD</code></h2>
+        <h3>Query Params</h3>
+        <p class="params"><code>currency</code> - A currency to get the symbol for.</p>
+        <h3>Returns</h3>
+        <p>A single string. Format: <code>string</code></p>
+        <h3>Example</h3>
+        <section class="example">
+            <p>Request: <code>/api/findSymbol</code></p>
+            <p>Result: <code>symbol</code></p>
+        </section>
+    </section>
+  </section>
+  <hr class="main">
+  <!-- POSTERS -->
+  <section class="post">
+    <h1 class="head">POST</h1>
+    <!-- Remove country .... -->
+    <section class="sep">
+        <h2>/api/removeCountry <code>POST</code></h2>
+        <h3>Query Params</h3>
+        <p class="params"><code>country</code> - A country to remove.</p>
+        <h3>Returns</h3>
+        <p>A single string stating the status. Format: <code>string</code></p>
+        <h3>Example</h3>
+        <section class="example">
+            <p>Request: <code>/api/removeCountry</code></p>
+            <p>Result: <code>Country was successfully removed.</code></p>
+        </section>
+    </section>
+    <hr class="sub">
+    <!-- Change currency of country .... to currency of .... -->
+    <section class="sep">
+        <h2>/api/changeCurrency <code>POST</code></h2>
+        <h3>Query Params</h3>
+        <p class="params"><code>country</code> - The country to change currency of.</p>
+        <p class="params"><code>currency</code> - The new currency to be changed into.</p>
+        <h3>Returns</h3>
+        <p>A single string stating the status. Format: <code>string</code></p>
+        <h3>Example</h3>
+        <section class="example">
+            <p>Request: <code>/api/changeCurrency</code></p>
+            <p>Result: <code>Country successfully changed to new currency.</code></p>
+        </section>
+    </section>
+  </section>
+  <section>
+    <br>
+  </section>
+</body>
+<footer>Freya Emerson - 2024 - IGME 430 Project 1</footer>
+</html>

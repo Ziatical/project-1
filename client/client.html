@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Our simple HTTP server</title>
+  <title>Project 1</title>
   <link rel="stylesheet" type="text/css" href="/style.css">
   
   <script>
@@ -30,17 +30,18 @@
           break;
       }
 
-      const obj = await response.json();
+      if (response.status !== 204 && response.headers.get('Content-Type')?.includes('application/json')) {
+        const obj = await response.json();
 
-      if(parseResponse) {
-        let jsonString = JSON.stringify(obj);
-        content.innerHTML += `<p>${jsonString}</p>`;
-      } else {
-        if(obj.message){
-          content.innerHTML += `<p>${obj.message}</p>`;
-        }
-        else {
-          content.innerHTML += '<p>Meta Data Received</p>';
+        if (parseResponse) {
+          let jsonString = JSON.stringify(obj);
+          content.innerHTML += `<p>${jsonString}</p>`;
+        } else {
+          if (obj.message) {
+            content.innerHTML += `<p>${obj.message}</p>`;
+          } else {
+            content.innerHTML += '<p>Meta Data Received</p>';
+          }
         }
       }
     };
@@ -49,16 +50,17 @@
     const sendPost = async (nameForm) => {
       const url = nameForm.getAttribute('action');
       const method = nameForm.getAttribute('method');
+      let nameField,formData,contentId,ageField;
       if (nameForm == document.querySelector('#removeCountryForm'))
       {
-        const nameField = nameForm.querySelector('#changeCurrencyCountryField');
-        const ageField = nameForm.querySelector('#changeCurrencyField');
-        const formData = `country=${nameField.value}&currency=${ageField.value}`;
-        const contentId = '#changeCurrencyContent';
+        nameField = nameForm.querySelector('#removeCountryField');
+        formData = `country=${nameField.value}`;
+        contentId = '#removeCountryContent';
       } else {
-        const nameField = nameForm.querySelector('#removeCountryField');
-        const formData = `country=${nameField.value}`;
-        const contentId = '#removeCountryContent';
+        nameField = nameForm.querySelector('#changeCurrencyCountryField');
+        ageField = nameForm.querySelector('#changeCurrencyField');
+        formData = `country=${nameField.value}&currency=${ageField.value}`;
+        contentId = '#changeCurrencyContent';
       }
 
       let response = await fetch(url, {
@@ -69,34 +71,38 @@
         },
         body: formData,
       });
-      handleResponse(response, method === 'post', contentId);
+      handleResponse(response, method === 'POST', contentId);
     };
 
     // Request Update
     const requestUpdate = async (userForm) => {
-      const url = userForm.getAttribute('action');
-      if (userForm == document.querySelector('#findCountryForm'))
+      let url = userForm.getAttribute('action');
+      let nameField = '';
+      let formData = '';
+      let contentId = '';
+      let method = '';
+      if (userForm === document.querySelector('#currencyForm'))
       {
-        const nameField = userForm.querySelector('#currencyField');
-        const formData = `currency=${nameField.value}`;
-        const contentId = '#currencyContent';
-        const method = userForm.querySelector('#methodSelect1').value;
-      } else if (userForm == document.querySelector('#findCapitalForm')){
-        const nameField = userForm.querySelector('#countryField');
-        const formData = `country=${nameField.value}`;
-        const contentId = '#capitalContent';
-        const method = userForm.querySelector('#methodSelect2').value;
-      } else if (userForm == document.querySelector('#findCountriesForm')){
-        const nameField = userForm.querySelector('#regionField');
-        const ageField = userForm.querySelector('#subregionField');
-        const formData = `region=${nameField.value}&subregion=${ageField.value}`;
-        const contentId = '#countryContent';
-        const method = userForm.querySelector('#methodSelect3').value;
+        nameField = userForm.querySelector('#currencyField');
+        contentId = '#currencyContent';
+        method = userForm.querySelector('#methodSelect1').value;
+        url += `?currency=${encodeURIComponent(nameField.value)}`;
+      } else if (userForm === document.querySelector('#capitalForm')){
+        nameField = userForm.querySelector('#countryField');
+        contentId = '#capitalContent';
+        method = userForm.querySelector('#methodSelect2').value;
+        url += `?country=${encodeURIComponent(nameField.value)}`;
+      } else if (userForm === document.querySelector('#regionForm')){
+        nameField = userForm.querySelector('#regionField');
+        ageField = userForm.querySelector('#subregionField');
+        contentId = '#countryContent';
+        method = userForm.querySelector('#methodSelect3').value;
+        url += `?region=${encodeURIComponent(nameField.value)}&subregion=${encodeURIComponent(ageField.value)}`;
       } else {
-        const nameField = userForm.querySelector('#symbolField');
-        const formData = `currency=${nameField.value}`;
-        const contentId = '#symbolContent';
-        const method = userForm.querySelector('#methodSelect4').value;
+        nameField = userForm.querySelector('#symbolField');
+        contentId = '#symbolContent';
+        method = userForm.querySelector('#methodSelect4').value;
+        url += `?currency=${encodeURIComponent(nameField.value)}`;
       }
 
       let response = await fetch(url, {
@@ -104,9 +110,8 @@
         headers: {
             'Accept': 'application/json'
         },
-        body: formData,
       });
-      handleResponse(response, method === 'get', contentId);
+      handleResponse(response, method === 'GET', contentId);
     };
     
 
@@ -165,9 +170,11 @@
   </script>
 </head>
 <body>
+  <!-- Link to Documentation -->
+  <a href="/docs">API Documentation</a>
   <!-- GETTERS -->
   <section id="getters">
-    <h1>GET</h1>
+    <h1 class="head">GET</h1>
     <!-- Get countries that have currency of .... -->
     <section id="currency">
       <h3>Get Country Where Currency...</h3>
@@ -183,6 +190,7 @@
       <section id="currencyContent">
       </section>
     </section>
+    <hr class="sub">
     <!-- Get capital that is the country of .... -->
     <section id="capital"></section>
       <h3>Get Capital Where Country...</h3>
@@ -198,6 +206,7 @@
       <section id="capitalContent">
       </section>
     </section>
+    <hr class="sub">
     <!-- Get countries that are of region and/or subregion .... -->
     <section id="region"></section>
       <h3>List All Countries in Region...</h3>
@@ -215,6 +224,7 @@
       <section id="countryContent">
       </section>
     </section>
+    <hr class="sub">
     <!-- Get symbol of the currency  .... -->
     <section id="symbol"></section>
       <h3>Get Symbol Where Currency...</h3>
@@ -231,9 +241,10 @@
       </section>
     </section>
   </section>
+  <hr class="main">
   <!-- POSTERS -->
   <section id="posters">
-    <h1>POST</h1>
+    <h1 class="head">POST</h1>
     <!-- Remove country .... -->
     <section id="removeCountry"></section>
       <h3>Remove Country...</h3>
@@ -245,6 +256,7 @@
       <section id="removeCountryContent">
       </section>
     </section>
+    <hr class="sub">
     <!-- Change currency of country .... to currency of .... -->
     <section id="changeCurrency"></section>
       <h3>Change Currency...</h3>
@@ -260,4 +272,5 @@
     </section>
   </section>
 </body>
+<footer>Freya Emerson - 2024 - IGME 430 Project 1</footer>
 </html>

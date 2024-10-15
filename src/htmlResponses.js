@@ -4,11 +4,19 @@ const fs = require('fs');
 // pages
 const index = fs.readFileSync(`${__dirname}/../client/client.html`);
 const css = fs.readFileSync(`${__dirname}/../client/style.css`);
+const docs = fs.readFileSync(`${__dirname}/../client/docs.html`);
 
 // Index Page
 const getIndex = (request, response) => {
   response.writeHead(200, { 'Content-Type': 'text/html' });
   response.write(index);
+  response.end();
+};
+
+// Documentation page
+const getDocumentation = (request, response) => {
+  response.writeHead(200, { 'Content-Type': 'text/html' });
+  response.write(docs);
   response.end();
 };
 
@@ -23,4 +31,5 @@ const getCSS = (request, response) => {
 module.exports = {
   getIndex,
   getCSS,
+  getDocumentation,
 };

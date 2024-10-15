@@ -50,6 +50,8 @@ const handleGet = (request, response, parsedUrl) => {
     jsonHandler.findCountries(request, response);
   } else if (parsedUrl.pathname === '/findSymbol') {
     jsonHandler.findSymbol(request, response);
+  } else if (parsedUrl.pathname === '/docs') {
+    htmlHandler.getDocumentation(request, response);
   } else {
     jsonHandler.notReal(request, response);
   }
